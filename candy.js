@@ -3,6 +3,7 @@ var board = [];
 var rows = 9;
 var columns = 9;
 var score = 0;
+var level = 0;
 
 var currTile;
 var otherTile;
@@ -11,10 +12,12 @@ window.onload = function () {
   startGame();
 
   //1/10th of a second
+  //below is the looping game functionality like the "draw()" in p5
   window.setInterval(function () {
     crushCandy();
     slideCandy();
     generateCandy();
+    levelUp();
   }, 100);
 };
 
@@ -103,15 +106,73 @@ function dragEnd() {
       otherTile.src = currImg;
     }
   }
+  console.log(level);
 }
 
 function crushCandy() {
   //crushFive();
-  //crushFour();
+  crushFour();
   crushThree();
   document.getElementById("score").innerText = score;
 }
 
+// checking for x-in-a-rows:
+
+function crushFour() {
+  //check rows
+  let boom = new Audio("boom.mp3");
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < columns - 3; c++) {
+      let candy1 = board[r][c];
+      let candy2 = board[r][c + 1];
+      let candy3 = board[r][c + 2];
+      let candy4 = board[r][c + 3];
+
+      if (
+        candy1.src == candy2.src &&
+        candy2.src == candy3.src &&
+        candy3.src == candy4.src &&
+        !candy1.src.includes("blank")
+      ) {
+        candy1.src = "./images/blank.png";
+        candy2.src = "./images/blank.png";
+        candy3.src = "./images/blank.png";
+        candy4.src = "./images/blank.png";
+
+        score += 10;
+        console.log("do something like: 4-BOOM!");
+        boom.play();
+      }
+    }
+  }
+
+  //check columns
+  for (let c = 0; c < columns; c++) {
+    for (let r = 0; r < rows - 3; r++) {
+      let candy1 = board[r][c];
+      let candy2 = board[r + 1][c];
+      let candy3 = board[r + 2][c];
+      let candy4 = board[r + 3][c];
+
+      if (
+        candy1.src == candy2.src &&
+        candy2.src == candy3.src &&
+        candy3.src == candy4.src &&
+        !candy1.src.includes("blank")
+      ) {
+        candy1.src = "./images/blank.png";
+        candy2.src = "./images/blank.png";
+        candy3.src = "./images/blank.png";
+        candy4.src = "./images/blank.png";
+        score += 10;
+        console.log("do something like: 4-BOOM! horIzOnTaL");
+        boom.play();
+      }
+    }
+  }
+}
+
+//////////////////33333333333333333333333333333/////////////////
 function crushThree() {
   //check rows
   let cash = new Audio("cash-register.mp3");
@@ -128,7 +189,7 @@ function crushThree() {
         candy1.src = "./images/blank.png";
         candy2.src = "./images/blank.png";
         candy3.src = "./images/blank.png";
-        score += 30;
+        score += 200;
         console.log("do something like:  BOOM!");
         cash.play();
       }
@@ -150,7 +211,7 @@ function crushThree() {
         candy1.src = "./images/blank.png";
         candy2.src = "./images/blank.png";
         candy3.src = "./images/blank.png";
-        score += 30;
+        score += 200;
         cheer.play();
       }
     }
@@ -214,5 +275,35 @@ function generateCandy() {
     if (board[0][c].src.includes("blank")) {
       board[0][c].src = "./images/" + randomCandy() + ".png";
     }
+  }
+}
+
+function levelUp() {
+  if (score >= 1000 && level != 1 && level != 2) {
+    var img = new Image(150, 150);
+    img.src = "images/monster.png";
+    block.appendChild(img);
+    img.style.left = block.clientWidth / 2 + "px";
+    img.style.top = block.clientHeight / 2 + "px";
+    img.style.position = "absolute";
+    level = 1;
+  }
+  if (score >= 1500 && level != 2) {
+    var img2 = new Image(150, 150);
+    img2.src = "images/monster-monnies.png";
+    block.appendChild(img2);
+    img2.style.left = block.clientWidth / 2 + "px";
+    img2.style.top = block.clientHeight / 2 + "px";
+    img2.style.position = "absolute";
+    level = 2;
+  }
+  if (score >= 2500 && level != 3) {
+    var img3 = new Image(150, 150);
+    img3.src = "images/monster-monnies-wizard.png";
+    block.appendChild(img3);
+    img3.style.left = block.clientWidth / 2 + "px";
+    img3.style.top = block.clientHeight / 2 + "px";
+    img3.style.position = "absolute";
+    level = 3;
   }
 }
