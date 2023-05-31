@@ -4,6 +4,7 @@ var rows = 9;
 var columns = 9;
 var score = 0;
 var level = 0;
+var specialCandy;
 
 var currTile;
 var otherTile;
@@ -110,16 +111,77 @@ function dragEnd() {
 }
 
 function crushCandy() {
-  //crushFive();
+  crushFive();
   crushFour();
   crushThree();
   document.getElementById("score").innerText = score;
 }
 
-// checking for x-in-a-rows:
+function crushFive() {
+  //check rows 5555555
+  let choir = new Audio("choir.mp3");
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < columns - 4; c++) {
+      let candy1 = board[r][c];
+      let candy2 = board[r][c + 1];
+      let candy3 = board[r][c + 2];
+      let candy4 = board[r][c + 3];
+      let candy5 = board[r][c + 4];
+
+      if (
+        candy1.src == candy2.src &&
+        candy2.src == candy3.src &&
+        candy3.src == candy4.src &&
+        candy4.src == candy5.src &&
+        !candy1.src.includes("blank")
+      ) {
+        candy1.src = "./images/blank.png";
+        candy2.src = "./images/blank.png";
+        candy3.src = "./images/blank.png";
+        candy4.src = "./images/blank.png";
+        candy5.src = "./images/blank.png";
+
+        score += 1000;
+        console.log("do something like: 5-BOOM!");
+        choir.play();
+      }
+    }
+  }
+
+  //check columns 555555
+  for (let c = 0; c < columns; c++) {
+    for (let r = 0; r < rows - 4; r++) {
+      let candy1 = board[r][c];
+      let candy2 = board[r + 1][c];
+      let candy3 = board[r + 2][c];
+      let candy4 = board[r + 3][c];
+      let candy5 = board[r + 4][c];
+
+      if (
+        candy1.src == candy2.src &&
+        candy2.src == candy3.src &&
+        candy3.src == candy4.src &&
+        candy4.src == candy5.src &&
+        !candy1.src.includes("blank")
+      ) {
+        candy1.src = "./images/blank.png";
+        candy2.src = "./images/blank.png";
+        candy3.src = "./images/blank.png";
+        candy4.src = "./images/blank.png";
+        candy5.src = "./images/blank.png";
+
+        score += 1000;
+        console.log("do something like: 5-BOOM! horIzOnTaL");
+        choir.play();
+      }
+    }
+  }
+}
+
+// checking for x-in-a-rows:4444444444
 
 function crushFour() {
-  //check rows
+  //check rows 444444444
   let boom = new Audio("boom.mp3");
   for (let r = 0; r < rows; r++) {
     for (let c = 0; c < columns - 3; c++) {
@@ -146,7 +208,7 @@ function crushFour() {
     }
   }
 
-  //check columns
+  //check columns 44444444444
   for (let c = 0; c < columns; c++) {
     for (let r = 0; r < rows - 3; r++) {
       let candy1 = board[r][c];
@@ -189,7 +251,7 @@ function crushThree() {
         candy1.src = "./images/blank.png";
         candy2.src = "./images/blank.png";
         candy3.src = "./images/blank.png";
-        score += 200;
+        score += 2;
         console.log("do something like:  BOOM!");
         cash.play();
       }
@@ -211,7 +273,7 @@ function crushThree() {
         candy1.src = "./images/blank.png";
         candy2.src = "./images/blank.png";
         candy3.src = "./images/blank.png";
-        score += 200;
+        score += 2;
         cheer.play();
       }
     }
